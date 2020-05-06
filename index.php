@@ -22,4 +22,13 @@ if (!defined('DIR_APPLICATION')) {
 // Startup
 require_once(DIR_SYSTEM . 'startup.php');
 
+<<<<<<< Updated upstream
 start('catalog');
+=======
+start('catalog');
+
+
+TEST TEST
+
+BB
+>>>>>>> Stashed changes
