@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<modification>
+    <name>Asset Versioning</name>
+    <code>asset_versioning</code>
+    <version>1.0</version>
+    <author>Aung</author>
+    <link></link>
+
+    <file path="system/library/themeoptions.php">
+        <operation>
+            <search><![CDATA[ 
+                public function getAllCategories() {
+            ]]></search>
+            <add position="before"><![CDATA[
+  public function getAssetPath($href, $type, $media = 'screen') {   
+    $filename = ''; $dirname = '';
+    $get_info =  $this->filePathParts($href);   
+    if(!empty($get_info)){
+      $filename = $get_info['base_name'];
+      $dirname  = $get_info['dir_name'];
+    }   
+    $file_dir_path = substr($dirname, strpos($dirname, '/', 16)); 
+    $manifest_path = DIR_APPLICATION.'view/theme/build/rev-manifest.json';    
+    
+    if (file_exists($manifest_path)) {        
+      $manifest = json_decode(file_get_contents($manifest_path), TRUE);
+    } else {          
+      $manifest = [];
+    } 
+
+    $combine =ltrim($file_dir_path .'/'.$filename, '/');
+    if (array_key_exists($combine, $manifest)) {  
+      if($type == 'css'){         
+        return 'catalog/view/theme/build' . '/'. $manifest[$combine];
+      }else if($type == 'js'){
+        return 'catalog/view/theme/build' . '/' . $manifest[$combine];
+      }else{
+        return $manifest[$combine];
+      }
+    }
+    return $filename;
+  }
+
+  private function filePathParts($file) {
+    $pathinfo = pathinfo($file);      
+    $result = array(
+    'dir_name'  => $pathinfo['dirname'],
+    'base_name' => $pathinfo['basename']        
+    );    
+  return $result;
+  }   
+            ]]></add>
+        </operation>
+    </file>
+</modification>
