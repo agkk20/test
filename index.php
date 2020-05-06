@@ -26,3 +26,15 @@ start('catalog');
 
 
 TEST TEST
+=======
+<<<<<<< Updated upstream
+start('catalog');
+=======
+start('catalog');
+
+
+TEST TEST
+
+BB
+>>>>>>> Stashed changes
+>>>>>>> sub
